@@ -13,49 +13,38 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
-async def get(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
+async def get(update, context):
     try:
-        roll = context.args[0]
-        password = context.args[1]
+        message = update.message.text.split()
+
+        if len(message) != 3:
+            await update.message.reply_text(
+                "Usage:\n/get rollnumber password"
+            )
+            return
+
+        roll = message[1]
+        password = message[2]
 
         await update.message.reply_text("Fetching attendance... ⏳")
 
+        from attendance_selenium import get_attendance
+
         data = get_attendance(roll, password)
 
-        subjects = []
-        total_held = 0
-        total_attended = 0
+        if not data:
+            await update.message.reply_text("Could not fetch attendance.")
+            return
+
+        result = ""
 
         for row in data:
-            if len(row) >= 5 and row[0].isdigit():
+            result += " ".join(row) + "\n"
 
-                subject = row[1]
-                held = int(row[2])
-                attend = int(row[3])
-                percent = row[4]
+        await update.message.reply_text(result)
 
-                subjects.append((subject, held, attend, percent))
-
-                total_held += held
-                total_attended += attend
-
-        overall = (total_attended / total_held) * 100
-        max_bunk = int((total_attended - 0.75 * total_held) / 0.75)
-
-        message = "📊 ATTENDANCE REPORT\n\n"
-
-        for s in subjects:
-            message += f"{s[0]} : {s[2]}/{s[1]} ({s[3]}%)\n"
-
-        message += f"\nTOTAL: {total_attended}/{total_held}"
-        message += f"\nPercentage: {round(overall,2)} %"
-        message += f"\n\nYou can bunk {max_bunk} classes and stay above 75%"
-
-        await update.message.reply_text(message)
-
-    except:
-        await update.message.reply_text("Usage:\n/get rollnumber password")
+    except Exception as e:
+        await update.message.reply_text(f"Error: {e}")
 
 
 app = ApplicationBuilder().token(BOT_TOKEN).build()
