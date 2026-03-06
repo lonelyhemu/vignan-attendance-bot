@@ -3,8 +3,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
+
 
 def get_attendance(username, password):
 
@@ -19,7 +21,7 @@ def get_attendance(username, password):
 
     chrome_options.binary_location = "/usr/bin/google-chrome"
     
-    Service = Service(ChromeDriverManager().install())
+    service = Service(ChromeDriverManager().install())
 
 
     driver = webdriver.Chrome(service=service,  options=chrome_options)
