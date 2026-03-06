@@ -32,10 +32,34 @@ async def get(update, context):
         from attendance_selenium import get_attendance
         data = get_attendance(roll, password)
 
-        result = " 📊 ATTENDANCE REPORT\n\n"
+        result = "📊 SUBJECT WISE ATTENDANCE\n\n"
+
+        total_held = 0
+        total_attended = 0
 
         for subject, held, attend, percent in data:
-            result += f"{subject}: {attend}/{held} ({percent}%)\n" 
+            held = int(held)
+            attend = int(attend)
+
+            total_held += held
+            total_attended += attend
+
+            result += f"{subject}: {attend}/{held} ({percent}%)\n"
+
+        overall = round((total_attended / total_held) * 100, 2)
+
+        # bunk calculation
+        min_required = 75
+        safe_bunks = int((total_attended / 0.75) - total_held)
+
+        result += "\n📈 TOTAL\n"
+        result += f"{total_attended} / {total_held}\n"
+        result += f"Percentage: {overall}%\n\n"
+
+        if safe_bunks > 0:
+            result += f"✅ You can bunk {safe_bunks} classes and stay above 75%"
+        else:
+            result += "⚠️ You must attend upcoming classes to stay above 75%"
 
         
 
