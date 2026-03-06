@@ -38,6 +38,8 @@ async def get(update, context):
         total_attended = 0
 
         for subject, held, attend, percent in data:
+            if held=="Held":
+                continue
             held = int(held)
             attend = int(attend)
 
@@ -49,7 +51,6 @@ async def get(update, context):
         overall = round((total_attended / total_held) * 100, 2)
 
         # bunk calculation
-        min_required = 75
         safe_bunks = int((total_attended / 0.75) - total_held)
 
         result += "\n📈 TOTAL\n"
