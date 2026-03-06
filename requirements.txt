@@ -2,4 +2,3 @@ python-telegram-bot
 selenium
 beautifulsoup4
 requests
-webidriver-manager
