@@ -63,9 +63,15 @@ def get_attendance(username, password):
     data = []
     for r in rows:
         cols = r.find_elements(By.TAG_NAME, "td")
-        row = [c.text.strip() for c in cols if c.text.strip()]
-        if row:
-            data.append(row)
+
+        # Only keep rows with the expected 5 columns
+        if len(cols) == 5:
+            subject = cols[1].text.strip()
+            held = cols[2].text.strip()
+            attend = cols[3].text.strip()
+            percent = cols[4].text.strip()
+
+            data.append([subject, held, attend, percent])
 
     driver.quit()
     return data

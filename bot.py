@@ -32,10 +32,12 @@ async def get(update, context):
         from attendance_selenium import get_attendance
         data = get_attendance(roll, password)
 
-        result = ""
+        result = " 📊 ATTENDANCE REPORT\n\n"
 
-        for row in data:
-            result += " ".join(row) + "\n"
+        for subject, held, attend, percent in data:
+            result += f"{subject}: {attend}/{held} ({percent}%)\n" 
+
+        
 
         await update.message.reply_text(result)
 
