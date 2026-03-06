@@ -16,7 +16,7 @@ def get_attendance(username, password):
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-gpu")
 
-    driver = webdriver.Chrome(options=chrome_options)
+    driver = webdriver.Chrome(service=service,  options=chrome_options)
     wait = WebDriverWait(driver, 50)
 
     driver.get("https://webprosindia.com/vignanit/Default.aspx")
