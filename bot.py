@@ -14,7 +14,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "Welcome to Vignan Attendance Bot\n\n"
         "Use:\n"
-        "/get rollnumber password"
+        "/get rollnumber password \n"
         "/login rollnumber password - to save login details\n"
         "/attendance - to get attendance using saved login"
     )
