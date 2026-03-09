@@ -7,7 +7,7 @@ Features
 - Bunk calculator
 
 Tech stack
-Python
-Selenium
-Telegram Bot API
-Railway Cloud
+-Python
+-Selenium
+-Telegram Bot API
+-Railway Cloud
